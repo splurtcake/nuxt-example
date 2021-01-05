@@ -2,6 +2,11 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
+  // https://nuxtjs.org/faq/netlify-deployment/#for-site-generated-in-spa-mode
+  generate: {
+    fallback: true
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'nuxt-example',
