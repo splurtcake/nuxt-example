@@ -1,10 +1,6 @@
 <template>
-  <nav>
-    <ul
-      role="menu"
-      class="flex items-center p-4 bg-gray-200"
-      v-if="navigationMenu"
-    >
+  <nav role="navigation">
+    <ul v-if="navigationMenu" class="flex items-center p-4 bg-gray-200">
       <li
         v-for="(navItem, index) in navigationMenu.fields.menuItems"
         :key="index"
@@ -23,14 +19,31 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { createClient } from '../plugins/contentful'
+const contentful = require('../.contentful.json')
+const client = createClient()
+
 export default {
   name: 'Navigation',
-  computed: {
-    ...mapState('navigation', ['navigationMenu']),
+  async fetch() {
+    await client
+      .getEntries({
+        content_type: contentful.CTF_NAVIGATION_POST_TYPE_ID,
+        order: '-sys.createdAt',
+      })
+      .then((page) => {
+        if (page) {
+          this.navigationMenu = page.items[0]
+        }
+      })
   },
-  mounted() {
-    this.$store.dispatch('navigation/getPageItems')
+  data() {
+    return {
+      navigationMenu: null,
+    }
+  },
+  activated() {
+    this.$fetch()
   },
 }
 </script>
