@@ -1,4 +1,13 @@
+const contentful = require('./.contentful.json')
+
 export default {
+  env: {
+    CTF_SPACE_ID: contentful.CTF_SPACE_ID,
+    CTF_CDA_ACCESS_TOKEN: contentful.CTF_CDA_ACCESS_TOKEN,
+    CTF_PERSON_ID: contentful.CTF_PERSON_ID,
+    CTF_BLOG_POST_TYPE_ID: contentful.CTF_BLOG_POST_TYPE_ID
+  },
+
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
