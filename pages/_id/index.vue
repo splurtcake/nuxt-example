@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <main>
     <div v-for="(component, index) in page.fields.content" :key="index">
       <component
         :is="components[getComponentName(component)].component"
         v-bind="{ fields: component.fields }"
       />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -24,6 +24,7 @@ export default {
       })
       .then((page) => {
         return {
+          siteName: env.SITE_NAME,
           page: page.items[0],
         }
       })
@@ -39,9 +40,13 @@ export default {
   },
   methods: {
     getComponentName(component) {
-      if (!component) return
-      return component.sys.contentType.sys.id
+      return component?.sys?.contentType?.sys?.id
     },
+  },
+  head() {
+    return {
+      title: `${this.siteName} — ${this.page?.fields?.title}`,
+    }
   },
 }
 </script>

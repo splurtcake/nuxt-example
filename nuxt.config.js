@@ -3,6 +3,7 @@ const contentfulEnv = require('./.contentful.json')
 
 export default {
   env: {
+    SITE_NAME: 'Nuxt Example',
     CTF_SPACE_ID: contentfulEnv.CTF_SPACE_ID,
     CTF_CDA_ACCESS_TOKEN: contentfulEnv.CTF_CDA_ACCESS_TOKEN,
     CTF_PERSON_ID: contentfulEnv.CTF_PERSON_ID,
@@ -39,6 +40,10 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
   ],
+
+  storybook: {
+    addons: ['@storybook/addon-a11y', '@storybook/addon-storysource'],
+  },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [

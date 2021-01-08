@@ -9,7 +9,7 @@
         <nuxt-link
           :to="'/' + navItem.fields.slug.trim()"
           role="menuitem"
-          class="rounded bg-red-400 py-3 p-6 block"
+          class="rounded bg-gray-800 text-white font-bold py-3 p-6 block hover:bg-black transition-colors duration-500 ease-out-expo"
         >
           {{ navItem.fields.title }}
         </nuxt-link>
