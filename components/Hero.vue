@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-black p-12 mb-12">
-    <h1 class="text-white text-lg">{{ fields.title }}</h1>
+  <section class="bg-black p-12 text-center border-b border-gray-500">
+    <h1 class="text-white font-bold text-4xl">{{ fields.title }}</h1>
     <p class="text-white">{{ fields.description }}</p>
-  </div>
+  </section>
 </template>
 
 <script>

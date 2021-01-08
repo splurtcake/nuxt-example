@@ -10,31 +10,24 @@
 </template>
 
 <script>
-// components
-import Hero from '../components/Hero.vue'
+import Hero from '../../components/Hero.vue'
 
-// contentful
-import { createClient } from '~/plugins/contentful.js'
-const client = createClient()
+import { createClient } from '../../plugins/contentful'
+const contentfulClient = createClient()
 
 export default {
   asyncData({ env, params }) {
-    return Promise.all([
-      // fetch all blog posts sorted by creation date
-      client.getEntries({
-        content_type: env.CTF_BLOG_POST_TYPE_ID,
-        'fields.slug[in]': 'home',
-        order: '-sys.createdAt',
-      }),
-    ]).then(([page]) => {
-      // return data that should be available
-      // in the template
-      return {
-        page: page.items.length ? page.items[0] : {},
-      }
-    })
+    return contentfulClient
+      .getEntries({
+        content_type: 'page',
+        'fields.slug': params.id || 'home',
+      })
+      .then((page) => {
+        return {
+          page: page.items[0],
+        }
+      })
   },
-
   data() {
     return {
       components: {
@@ -44,7 +37,6 @@ export default {
       },
     }
   },
-
   methods: {
     getComponentName(component) {
       if (!component) return

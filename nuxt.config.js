@@ -1,11 +1,12 @@
-const contentful = require('./.contentful.json')
+const contentful = require('contentful')
+const contentfulEnv = require('./.contentful.json')
 
 export default {
   env: {
-    CTF_SPACE_ID: contentful.CTF_SPACE_ID,
-    CTF_CDA_ACCESS_TOKEN: contentful.CTF_CDA_ACCESS_TOKEN,
-    CTF_PERSON_ID: contentful.CTF_PERSON_ID,
-    CTF_BLOG_POST_TYPE_ID: contentful.CTF_BLOG_POST_TYPE_ID
+    CTF_SPACE_ID: contentfulEnv.CTF_SPACE_ID,
+    CTF_CDA_ACCESS_TOKEN: contentfulEnv.CTF_CDA_ACCESS_TOKEN,
+    CTF_PERSON_ID: contentfulEnv.CTF_PERSON_ID,
+    CTF_POST_TYPE_ID: contentfulEnv.CTF_POST_TYPE_ID,
   },
 
   // Target (https://go.nuxtjs.dev/config-target)
@@ -52,4 +53,36 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'root',
+        path: '/',
+        component: resolve(__dirname, 'pages/_id/index.vue'),
+      })
+    },
+  },
+
+  generate: {
+    routes: () => {
+      const client = contentful.createClient({
+        space: contentfulEnv.CTF_SPACE_ID,
+        accessToken: contentfulEnv.CTF_CDA_ACCESS_TOKEN,
+      })
+
+      return client
+        .getEntries({
+          content_type: contentfulEnv.CTF_POST_TYPE_ID,
+        })
+        .then((response) => {
+          return response.items.map((entry) => {
+            return {
+              route: entry.fields.slug,
+              payload: entry,
+            }
+          })
+        })
+    },
+  },
 }
